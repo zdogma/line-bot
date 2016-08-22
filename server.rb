@@ -35,6 +35,8 @@ post '/callback' do
   original_url = gif.dig('default', 'url')
   preview_url  = gif.dig('small', 'url') || original_url
 
+  logger.info "GIF IMAGE: default => #{original_url}, preview => #{preview_url}"
+
   if response.status == 200
     response = LineClient.new(
       CHANNEL_ID,
