@@ -16,7 +16,7 @@ post '/callback' do
 
   # TODO: LINE からのアクセスかどうかの認証を入れる
 
-  input = params[:result][0]
+  input = params['result'][0]
   logger.info "ACCESSED #{input}"
   keyword  = input['content']['text']
   from_ids = input['content']['from']
