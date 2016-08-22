@@ -15,6 +15,7 @@ post '/callback' do
   logger = Logger.new(STDOUT)
 
   # TODO: LINE からのアクセスかどうかの認証を入れる
+  logger.info "ACCESSED #{params}"
 
   input = params['result'][0]
   logger.info "ACCESSED #{input}"
