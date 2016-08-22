@@ -15,6 +15,7 @@ post '/callback' do
   logger = Logger.new(STDOUT)
 
   return unless from_line?
+
   input = params[:result][0]
   logger.info "ACCESSED #{input}"
   keyword  = input['content']['text']
@@ -51,6 +52,9 @@ def from_line?
   hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, CHANNEL_SECRET, http_request_body)
   signature_answer = Base64.strict_encode64(hash)
 
+  puts "http_request_body: #{http_request_body}"
+  puts "hash: #{hash}"
+  puts "signature_answer: #{signature_answer}"
   signature == signature_answer
 end
 
