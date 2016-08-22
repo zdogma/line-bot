@@ -14,7 +14,7 @@ MAX_SEARCH_LIMIT_NUM = 2
 post '/callback' do
   logger = Logger.new(STDOUT)
 
-  return unless from_line?
+  # TODO: LINE からのアクセスかどうかの認証を入れる
 
   input = params[:result][0]
   logger.info "ACCESSED #{input}"
@@ -44,18 +44,6 @@ post '/callback' do
   else
     "うまくいきませんでした...(#{response.status})"
   end
-end
-
-def from_line?
-  signature = request.env['X-LINE-ChannelSignature']
-  http_request_body = request.body.read
-  hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, CHANNEL_SECRET, http_request_body)
-  signature_answer = Base64.strict_encode64(hash)
-
-  puts "http_request_body: #{http_request_body}"
-  puts "hash: #{hash}"
-  puts "signature_answer: #{signature_answer}"
-  signature == signature_answer
 end
 
 class LineClient
