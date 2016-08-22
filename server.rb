@@ -78,7 +78,7 @@ class LineClient
           'X-Line-Trusted-User-With-ACL' => @channel_mid
       }
       request.body = {
-        to: line_ids,
+        to: [line_ids],
         content: {
             contentType: 2, # Image
             toType: 1, # Type of recipient set in the to property ( user = 1 ),
