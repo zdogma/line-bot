@@ -11,7 +11,7 @@ OUTBOUND_PROXY = ENV['LINE_OUTBOUND_PROXY']
 MAX_SEARCH_LIMIT_NUM = 2
 
 get '/callback' do
-  return unless from_line?
+  return 'ブラウザからのアクセスには対応していません' unless from_line?
 
   input = params[:result][0]
   keyword  = input['content']['text']
@@ -41,7 +41,7 @@ get '/callback' do
 end
 
 def from_line?
-  signature = request.env['X-LINE-ChannelSignature'].to_s
+  signature = request.env['X-LINE-ChannelSignature']
   http_request_body = request.body.read
   hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, CHANNEL_SECRET, http_request_body)
   signature_answer = Base64.strict_encode64(hash)
