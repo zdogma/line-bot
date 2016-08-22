@@ -2,6 +2,7 @@ require 'sinatra'
 require 'base64'
 require 'faraday'
 require 'json'
+require 'logger'
 
 CHANNEL_ID     = ENV['LINE_CHANNEL_ID']
 CHANNEL_SECRET = ENV['LINE_CHANNEL_SECRET']
@@ -11,6 +12,9 @@ OUTBOUND_PROXY = ENV['LINE_OUTBOUND_PROXY']
 MAX_SEARCH_LIMIT_NUM = 2
 
 get '/callback' do
+  logger = Logger.new(STDOUT)
+
+  logger.info "ACCESSED"
   return 'ブラウザからのアクセスには対応していません' unless from_line?
   input = params[:result][0]
   logger.info "ACCESSED #{input}"
@@ -23,18 +27,20 @@ get '/callback' do
     faraday.adapter  Faraday.default_adapter
   end
 
+  logger.info "GIF SEARCH: #{keyword}"
   response = conn.get '/v1/gifs/search', { q: keyword, limit: MAX_SEARCH_LIMIT_NUM }
   gif = JSON.parse(response.body).dig('data', (0..MAX_SEARCH_LIMIT_NUM).to_a.sample, 'image')
   original_url = gif.dig('default', 'url')
   preview_url  = gif.dig('small', 'url') || original_url
 
   if response.status == 200
-    LineClient.new(
+    response = LineClient.new(
       CHANNEL_ID,
       CHANNEL_SECRET,
       CHANNEL_MID,
       OUTBOUND_PROXY
     ).send(from_ids, original_url, preview_url)
+    logger.info "LINE CHAT SENT: #{response}"
   else
     "うまくいきませんでした...(#{response.status})"
   end
