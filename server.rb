@@ -88,6 +88,7 @@ class LineClient
         toChannel: TO_CHANNEL,
         eventType: EVENT_TYPE
       }
+      puts request
     end
   end
 end
