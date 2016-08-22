@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'base64'
 require 'faraday'
+require 'faraday_middleware'
 require 'json'
 require 'logger'
 
