@@ -60,10 +60,10 @@ class LineClient
 
   def send(line_ids, image_url, preview_url)
     client = Faraday.new(url: LINE_BOT_ENDPOINT) do |faraday|
-      conn.request :json
-      conn.response :json, content_type: /\bjson$/
-      conn.adapter Faraday.default_adapter
-      conn.proxy @proxy
+      faraday.request :json
+      faraday.response :json, content_type: /\bjson$/
+      faraday.adapter Faraday.default_adapter
+      faraday.proxy @proxy
     end
 
     client.post do |request|
