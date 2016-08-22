@@ -87,6 +87,5 @@ class LineClient
         eventType: EVENT_TYPE
       }
     end
-    puts request.body
   end
 end
