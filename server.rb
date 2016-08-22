@@ -11,11 +11,10 @@ OUTBOUND_PROXY = ENV['LINE_OUTBOUND_PROXY']
 
 MAX_SEARCH_LIMIT_NUM = 2
 
-get '/callback' do
+post '/callback' do
   logger = Logger.new(STDOUT)
 
-  logger.info "ACCESSED"
-  return 'ブラウザからのアクセスには対応していません' unless from_line?
+  return unless from_line?
   input = params[:result][0]
   logger.info "ACCESSED #{input}"
   keyword  = input['content']['text']
