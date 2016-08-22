@@ -29,7 +29,8 @@ post '/callback' do
 
   logger.info "GIF SEARCH: #{keyword}"
   response = conn.get '/v1/gifs/search', { q: keyword, limit: MAX_SEARCH_LIMIT_NUM }
-  gif = JSON.parse(response.body).dig('data', (0..MAX_SEARCH_LIMIT_NUM).to_a.sample, 'image')
+
+  gif = JSON.parse(response.body).dig('data', (0..MAX_SEARCH_LIMIT_NUM - 1).to_a.sample, 'image')
   original_url = gif.dig('default', 'url')
   preview_url  = gif.dig('small', 'url') || original_url
 
