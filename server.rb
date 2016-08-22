@@ -42,7 +42,7 @@ post '/callback' do
       CHANNEL_MID,
       OUTBOUND_PROXY
     ).send(from_ids, original_url, preview_url)
-    logger.info "LINE CHAT SENT: #{response}"
+    logger.info "LINE CHAT SENT: #{response.inspect}"
   end
 end
 
@@ -87,5 +87,6 @@ class LineClient
         eventType: EVENT_TYPE
       }
     end
+    puts request.body
   end
 end
