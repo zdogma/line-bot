@@ -12,8 +12,8 @@ MAX_SEARCH_LIMIT_NUM = 2
 
 get '/callback' do
   return 'ブラウザからのアクセスには対応していません' unless from_line?
-
   input = params[:result][0]
+  logger.info "ACCESSED #{input}"
   keyword  = input['content']['text']
   from_ids = input['content']['from']
 
