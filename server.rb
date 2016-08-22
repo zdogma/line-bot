@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'base64'
 require 'faraday'
-require 'faraday_middleware'
 require 'json'
 require 'logger'
 
@@ -61,7 +60,6 @@ class LineClient
 
   def send(line_ids, image_url, preview_url)
     client = Faraday.new(url: LINE_BOT_ENDPOINT) do |faraday|
-      faraday.request :json
       faraday.response :json, content_type: /\bjson$/
       faraday.adapter Faraday.default_adapter
       faraday.proxy @proxy
