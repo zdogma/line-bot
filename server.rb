@@ -16,7 +16,7 @@ post '/callback' do
 
   # TODO: LINE からのアクセスかどうかの認証を入れる
 
-  input = request.body.read['result'][0]
+  input = JSON.parse(request.body).dig('result', 0)
   logger.info "ACCESSED #{input}"
   keyword  = input['content']['text']
   from_ids = input['content']['from']
