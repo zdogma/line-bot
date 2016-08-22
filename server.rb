@@ -15,9 +15,8 @@ post '/callback' do
   logger = Logger.new(STDOUT)
 
   # TODO: LINE からのアクセスかどうかの認証を入れる
-  logger.info "ACCESSED #{params}"
 
-  input = params['result'][0]
+  input = request.body.read['result'][0]
   logger.info "ACCESSED #{input}"
   keyword  = input['content']['text']
   from_ids = input['content']['from']
@@ -42,8 +41,6 @@ post '/callback' do
       OUTBOUND_PROXY
     ).send(from_ids, original_url, preview_url)
     logger.info "LINE CHAT SENT: #{response}"
-  else
-    "うまくいきませんでした...(#{response.status})"
   end
 end
 
