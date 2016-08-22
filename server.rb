@@ -16,7 +16,6 @@ post '/callback' do
 
   # TODO: LINE からのアクセスかどうかの認証を入れる
 
-  logger.info "ACCESSED #{request.body.class}"
   input = JSON.parse(request.body.read).dig('result', 0)
   logger.info "ACCESSED #{input}"
   keyword  = input['content']['text']
@@ -59,7 +58,7 @@ class LineClient
   end
 
   def send(line_ids, image_url, preview_url)
-    client = Faraday.new(url: LINE_BOT_END_POINT) do |faraday|
+    client = Faraday.new(url: LINE_BOT_ENDPOINT) do |faraday|
       conn.request :json
       conn.response :json, content_type: /\bjson$/
       conn.adapter Faraday.default_adapter
