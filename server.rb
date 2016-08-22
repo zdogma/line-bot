@@ -41,7 +41,7 @@ get '/callback' do
 end
 
 def from_line?
-  signature = request.env['X-LINE-ChannelSignature']
+  signature = request.env['X-LINE-ChannelSignature'].to_s
   http_request_body = request.body.read
   hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, CHANNEL_SECRET, http_request_body)
   signature_answer = Base64.strict_encode64(hash)
